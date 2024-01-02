@@ -35,3 +35,23 @@ def resize_transformation(img):
   i = resize(img)
   i =i*255.0 #back to 0-255
   return i
+
+class TransformedDataSet():
+    """Wrap a datset (created with imagefolder) to apply a transformation"""
+    def __init__(self, ds):
+        self.ds = ds
+        self.transformation=transforms.RandomHorizontalFlip(1)
+
+    def __getitem__(self, index):
+        """Get a sample from the dataset at the given index"""
+        img, label = self.ds[index]
+
+        # Apply the transformation if it is provided
+        if self.transformation:
+            img = self.transformation(img)
+
+        return img, label
+
+    def __len__(self):
+        """Number of batches"""
+        return len(self.ds)
