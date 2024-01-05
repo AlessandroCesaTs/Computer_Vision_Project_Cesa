@@ -108,6 +108,7 @@ def test_model(model,model_path,test_loader,test_set,device):
 
   model.to(device)
   model.load_state_dict(torch.load(model_path))
+  model.eval()
 
   correct=0
   total=0
