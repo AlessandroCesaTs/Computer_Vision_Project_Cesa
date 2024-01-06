@@ -125,11 +125,11 @@ class CNN2(nn.Module):
 class EnsembleModel(nn.Module):   
     def __init__(self):
         super(EnsembleModel,self).__init__() 
-        self.model1 = CNN2
-        self.model2 = CNN2
-        self.model3 = CNN2
-        self.model4 = CNN2
-        self.model5 = CNN2
+        self.model1 = CNN2()
+        self.model2 = CNN2()
+        self.model3 = CNN2()
+        self.model4 = CNN2()
+        self.model5 = CNN2()
 
     def forward(self, x):
         x1 = self.model1(x)
