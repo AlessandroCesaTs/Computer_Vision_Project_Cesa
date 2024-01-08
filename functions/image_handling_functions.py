@@ -1,5 +1,11 @@
+"""
+Functions for loading and handling the images, and managing the device (CPU/GPU)
+"""
+
 import torch
 import torchvision.transforms as transforms
+import numpy as np
+import time
 
 def get_default_device():
     """Pick GPU if available, else CPU"""
@@ -62,3 +68,21 @@ class TransformedDataSet():
     def __len__(self):
         """Number of batches"""
         return len(self.ds)
+
+def extract_for_svm(model,loader,device):
+    features=[]
+    labels=[]
+    start_time=time.time()
+    model.eval()
+    with torch.no_grad():
+        for inputs, label in loader:
+            inputs = inputs.to(device)
+            outputs = model(inputs)
+            features.append(outputs.cpu().numpy())
+            
+            labels.append(label.cpu().numpy())
+    features=np.concatenate(features)
+    labels=np.concatenate(labels)
+    end_time=time.time()
+    print(f"Time for extraction: {end_time-start_time}")
+    return features, labels
