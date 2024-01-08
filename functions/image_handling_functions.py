@@ -36,6 +36,13 @@ def resize_transformation(img):
   i =i*255.0 #back to 0-255
   return i
 
+def transformation_for_AlexNet(img):
+  resize = transforms.Compose([transforms.Resize([224,224]),
+  transforms.ToTensor()])
+  i = resize(img)
+  return i
+
+
 class TransformedDataSet():
     """Wrap a datset (created with imagefolder) to apply a transformation"""
     def __init__(self, ds):
