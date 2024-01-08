@@ -1,3 +1,7 @@
+"""
+Functions to handle the training and testing of the models
+"""
+
 import torch
 from torch import nn
 import torch.optim as optim
@@ -52,7 +56,7 @@ def train_model(model,train_loader,validation_loader,loss_function,optimizer,EPO
     print('EPOCH{}:'.format(epoch+1))
 
     model.train(True)
-    train_loss=train_one_epoch(model,epoch,train_loader,device,loss_function,optimizer)
+    train_loss=train_one_epoch(model,epoch,train_loader,device,loss_function,optimizer) ##train for each epoch
 
     running_validation_loss=0.0
 
@@ -137,3 +141,14 @@ def test_model(model,model_path,test_loader,test_set,device):
                       columns = [i for i in classes])
   plt.figure(figsize = (5,5))
   sn.heatmap(df_cm)
+
+def test_svm(model,test_features,test_labels, test_set):
+    accuracy=model.score(test_features,test_labels)
+    print(f"Accuracy on test images is {accuracy}")
+    predictions=model.predict(test_features)
+    classes=test_set.classes
+    cf_matrix = confusion_matrix(np.stack(predictions), np.stack(test_labels))
+    df_cm = pd.DataFrame(cf_matrix / np.sum(cf_matrix, axis=1)[:, None], index = [i for i in classes],
+                      columns = [i for i in classes])
+    plt.figure(figsize = (5,5))
+    sn.heatmap(df_cm)
