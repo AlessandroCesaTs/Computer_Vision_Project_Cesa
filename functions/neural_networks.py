@@ -20,7 +20,7 @@ class simpleCNN(nn.Module): #Basic CNN
     self.conv3=nn.Conv2d(in_channels=16,out_channels=32,kernel_size=3,stride=1) #output image is 12*12
     self.relu3=nn.ReLU()
 
-    self.fc1=nn.Linear(32*12*12,15) #16 channels * 16*16 image (64*64 with 2 maxpooling of stride 2), 15 output features=15 classes
+    self.fc1=nn.Linear(32*12*12,15) #16 channels * 12*12 image (64*64 with 2 maxpooling of stride 2), 15 output features=15 classes
 
   def forward(self,x):
     x=self.conv1(x)
